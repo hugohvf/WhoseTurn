@@ -1,22 +1,45 @@
 import Page from '@/components/page'
+import TaskCard from '@/components/task-card'
+import { Tasks } from '@/domain/entities'
+import { changeAssigneeTask, getAllTasks } from '@/services/task'
+import { useCallback, useEffect, useState } from 'react'
 
-const Index = () => (
-	<Page>
-		<section className='mt-20'>
-			<h2 className='text-xl font-semibold text-gray-800 dark:text-gray-200'>
-				We grow a lot of rice.
-			</h2>
+const Index = () => {
+	const [tasks, setTasks] = useState<Tasks>([])
 
-			<p className='mt-2 text-gray-600 dark:text-gray-400'>
-				You love rice, and so does the rest of the world. In the crop year
-				2008/2009, the milled rice production volume amounted to over{' '}
-				<span className='font-medium text-gray-900 dark:text-gray-50'>
-					448 million tons
-				</span>{' '}
-				worldwide.
-			</p>
-		</section>
-	</Page>
-)
+	useEffect(() => {
+		updateTasks()
+	}, [])
+
+	const updateTasks = async () => {
+		const tasks = await getAllTasks()
+		if (tasks) setTasks(tasks)
+	}
+
+	const updateTaskAssignee = async (taskId: string, userId: string) => {
+		const updatedTask = await changeAssigneeTask(taskId, userId)
+		if (updatedTask) updateTasks()
+		// setTasks(
+		// 	tasks.map((currTask) =>
+		// 		currTask.id === taskId ? updatedTask : currTask
+		// 	)
+		// )
+	}
+
+	return (
+		<Page>
+			<section className='mt-4'>
+				{tasks?.length > 0 &&
+					tasks.map((task) => (
+						<TaskCard
+							key={task.id}
+							task={task}
+							onChangeAssignee={updateTaskAssignee}
+						/>
+					))}
+			</section>
+		</Page>
+	)
+}
 
 export default Index

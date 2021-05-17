@@ -9,6 +9,7 @@
 		"test": "xo !*.config.js"
 	},
 	"dependencies": {
+		"axios": "^0.21.1",
 		"next": "10.0.3",
 		"next-pwa": "^5.0.5",
 		"next-themes": "^0.0.10",
@@ -16,6 +17,7 @@
 		"react-dom": "17.0.1"
 	},
 	"devDependencies": {
+		"@types/axios": "^0.14.0",
 		"@types/node": "^14.14.25",
 		"@types/react": "^17.0.1",
 		"autoprefixer": "^10.2.4",

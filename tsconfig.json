@@ -15,7 +15,10 @@
 		"jsx": "preserve",
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./*"]
+			"@/*": ["./*"],
+			"@domain*": ["./domain/*"],
+			"@services*": ["./services/*"],
+			"@components*": ["./components/*"]
 		}
 	},
 	"exclude": ["node_modules"],

@@ -1,23 +1,9 @@
+import { Tasks, User } from '@/domain/entities'
 import fs from 'fs'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const jsonPath = './tasks.json'
 const jsonEncoding = 'utf-8'
-
-type Task = {
-	id: string
-	name: string
-	users_assigned: User[]
-	current_assignee_id: string
-	last_updated: Date
-}
-
-type Tasks = Task[]
-
-type User = {
-	id: string
-	name: string
-}
 
 type UpdateTaskAssigneePayload = {
 	task_id: string
@@ -54,7 +40,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				if (isAssigneeIdInTask(selectedTask?.users_assigned, user_id)) {
 					selectedTask.current_assignee_id = user_id
 					selectedTask.last_updated = new Date()
-					console.log(tasks)
 					fs.writeFileSync(jsonPath, JSON.stringify(tasks))
 					return res.status(200).json(selectedTask)
 				}
